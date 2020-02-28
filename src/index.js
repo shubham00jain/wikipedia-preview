@@ -1,6 +1,8 @@
 import { fetchPagePreview } from './api'
 import { createPopup } from './popup'
+import { createTouchPopup } from './touchPopup'
 import { renderPreview } from './preview'
+import { isTouch, matchesSelector } from './utils'
 import '../style/popup.less'
 
 function init({root, selector, lang, popupContainer}={}) {
@@ -9,24 +11,36 @@ function init({root, selector, lang, popupContainer}={}) {
 	selector = selector || '[data-wikipedia-preview]'
 	popupContainer = popupContainer || document.body
 
-	const popup = createPopup(popupContainer)
+	const popup = isTouch() ?
+		createTouchPopup(popupContainer) :
+		createPopup(popupContainer)
 
-	const mouseEnter = ({ target }) => {
+	const triggerPopup = ({ target }) => {
 		const title = target.getAttribute('data-wp-title') || target.textContent
 		const lang = target.getAttribute('data-wp-lang') || globalLang
 		fetchPagePreview(lang, title).then(data => {
-				if (data) {
-					popup.show(renderPreview(lang, data), target)
-				}
+			if (data) {
+				popup.show(renderPreview(lang, data), target)
+			}
 		})
 	}
 
-	Array.prototype.forEach.call(
-		root.querySelectorAll(selector),
-		function (node) {
-			node.addEventListener('mouseenter', mouseEnter)
-		}
-	)
+	if (isTouch()) {
+		root.addEventListener('touchstart', ({target}) => {
+			if (matchesSelector(target, selector)) {
+				triggerPopup({target})
+			} else {
+				popup.hide()
+			}
+		})
+	} else {
+		Array.prototype.forEach.call(
+			root.querySelectorAll(selector),
+			function (node) {
+				node.addEventListener('mouseenter', triggerPopup)
+			}
+		)
+	}
 }
 
 export { init }

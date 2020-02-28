@@ -1,16 +1,14 @@
-.wp-popup {
-	box-sizing: border-box;
+// Style common to both touch and non-touch popups
+.wp-popup,
+.wp-touch-popup {
 	padding: 0;
-	position: absolute;
 	border: solid rgba( 0, 0, 0, 0.05 ) 1px;
 	border-radius: 2px;
 	background-color: white;
 	box-shadow: 0 30px 90px -20px rgba( 0, 0, 0, 0.3 ), 0 0 1px 1px rgba( 0, 0, 0, 0.05 );
-	height: 200px;
-	width: auto;
 	z-index: 110;
 
-	* {
+	&, * {
 		box-sizing: border-box;
 	}
 
@@ -68,4 +66,17 @@
 		    background-position: center;
 		}
 	}
+}
+
+// Style unique to NON-TOUCH popups
+.wp-popup {
+	position: absolute;
+}
+
+// Style unique to TOUCH popups
+.wp-touch-popup {
+	position: fixed;
+	left: 0;
+	right: 0;
+	bottom: 100px;
 }
