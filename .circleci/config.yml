@@ -11,3 +11,4 @@ jobs:
             npm install
             npm run build
             npm run coverage
+            npm run dev && npm run selenium
