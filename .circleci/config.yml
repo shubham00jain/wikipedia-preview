@@ -16,19 +16,19 @@ jobs:
           command: npm run coverage
       - run:
           name: Run Chrome test
-          command: sc-4.6.2-linux32/bin/sc -u $SAUCE_USERNAME -k $SAUCE_ACCESS_KEY & npm run dev & npm run selenium-chrome
+          command: ./sc-4.6.2-linux32/bin/sc -u $SAUCE_USERNAME -k $SAUCE_ACCESS_KEY & npm run dev & npm run selenium-chrome
       - run:
           name: Run Edge tests
-          command: sc-4.6.2-linux32/bin/sc -u $SAUCE_USERNAME -k $SAUCE_ACCESS_KEY & npm run dev & npm run selenium-edge
+          command: ./sc-4.6.2-linux32/bin/sc -u $SAUCE_USERNAME -k $SAUCE_ACCESS_KEY & npm run dev & npm run selenium-edge
       - run:
           name: Run Firefox test
-          command: sc-4.6.2-linux32/bin/sc -u $SAUCE_USERNAME -k $SAUCE_ACCESS_KEY & npm run dev & npm run selenium-firefox
+          command: ./sc-4.6.2-linux32/bin/sc -u $SAUCE_USERNAME -k $SAUCE_ACCESS_KEY & npm run dev & npm run selenium-firefox
       - run:
           name: Run IE test
-          command: sc-4.6.2-linux32/bin/sc -u $SAUCE_USERNAME -k $SAUCE_ACCESS_KEY & npm run dev & npm run selenium-ie
+          command: ./sc-4.6.2-linux32/bin/sc -u $SAUCE_USERNAME -k $SAUCE_ACCESS_KEY & npm run dev & npm run selenium-ie
       - run:
           name: Run Safari test
-          command: sc-4.6.2-linux32/bin/sc -u $SAUCE_USERNAME -k $SAUCE_ACCESS_KEY & npm run dev & npm run selenium-safari
+          command: ./sc-4.6.2-linux32/bin/sc -u $SAUCE_USERNAME -k $SAUCE_ACCESS_KEY & npm run dev & npm run selenium-safari
       - run:
           name: Prepare demo
           command: ./scripts/demo.sh
