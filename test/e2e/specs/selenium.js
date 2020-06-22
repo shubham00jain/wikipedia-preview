@@ -13,24 +13,8 @@ describe('wikipedia preview - ', () => {
         await el.click()
         el=await $('a.wp-link')
         await el.click()
-        await browser.switchWindow("en.wikipedia.org/wiki/Cat")
+        await browser.switchWindow("Cat - Wikipedia")
         assert.strictEqual(await browser.getTitle(), 'Cat - Wikipedia')
     })
     
-    afterEach(async function(){
-        var score=this.currentTest.state.split('ed')[0]
-        try {
-            await axios.put(
-                'https://crossbrowsertesting.com/api/v3/selenium/' + browser.sessionId,
-                {'action': 'set_score', 'score': score },
-                {
-                    auth: {username: browser.config.user, 
-                           password: browser.config.key
-                        }
-                }
-        )
-          } catch (error) {
-            console.error("Error on afterEach: "+error);
-          }
-    });
 })
