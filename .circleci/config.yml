@@ -15,8 +15,11 @@ jobs:
           name: Unit Test (with coverage)
           command: npm run coverage
       - run:
+          name: Sauce connect
+          command: ./sauceconnect/bin/sc -u $SAUCE_USERNAME -k $SAUCE_ACCESS_KEY & sleep 5
+      - run:
           name: start app
-          command: npm run dev & sleep 1
+          command: npm run dev & sleep 2
       - run:
           name: Run Chrome test
           command:  npm run selenium-chrome
