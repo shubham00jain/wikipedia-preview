@@ -16,22 +16,25 @@ jobs:
           command: npm run coverage
       - run:
           name: start app
-          command: npm run dev & sleep 2
+          command: npm run dev & sleep 10
+      - run:
+          name: start tunnel
+          command: ./sauceconnect/bin/sc -u $SAUCE_USERNAME -k $SAUCE_ACCESS_KEY & sleep 50
       - run:
           name: Run Chrome test
-          command: ./sauceconnect/bin/sc -u $SAUCE_USERNAME -k $SAUCE_ACCESS_KEY & sleep 10 && npm run selenium-chrome
+          command: npm run selenium-chrome
       - run:
           name: Run Edge tests
-          command: ./sauceconnect/bin/sc -u $SAUCE_USERNAME -k $SAUCE_ACCESS_KEY & sleep 10 && npm run selenium-edge
+          command: npm run selenium-edge
       - run:
           name: Run Firefox test
-          command: ./sauceconnect/bin/sc -u $SAUCE_USERNAME -k $SAUCE_ACCESS_KEY & sleep 10 && npm run selenium-firefox
+          command: npm run selenium-firefox
       - run:
           name: Run IE test
-          command: ./sauceconnect/bin/sc -u $SAUCE_USERNAME -k $SAUCE_ACCESS_KEY & sleep 10 && npm run selenium-ie
+          command: npm run selenium-ie
       - run:
           name: Run Safari test
-          command: ./sauceconnect/bin/sc -u $SAUCE_USERNAME -k $SAUCE_ACCESS_KEY & sleep 10 && npm run selenium-safari
+          command: npm run selenium-safari
       - run:
           name: Prepare demo
           command: ./scripts/demo.sh
