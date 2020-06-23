@@ -15,20 +15,26 @@ jobs:
           name: Unit Test (with coverage)
           command: npm run coverage
       - run:
+          name: Sauce connect
+          command: ./sauceconnect/bin/sc -u $SAUCE_USERNAME -k $SAUCE_ACCESS_KEY &
+      - run:
+          name: start app
+          command: npm run dev &
+      - run:
           name: Run Chrome test
-          command: ./sauceconnect/bin/sc -u $SAUCE_USERNAME -k $SAUCE_ACCESS_KEY & npm run dev & npm run selenium-chrome
+          command:  npm run selenium-chrome
       - run:
           name: Run Edge tests
-          command: ./sauceconnect/bin/sc -u $SAUCE_USERNAME -k $SAUCE_ACCESS_KEY & npm run dev & npm run selenium-edge
+          command: npm run selenium-edge
       - run:
           name: Run Firefox test
-          command: ./sauceconnect/bin/sc -u $SAUCE_USERNAME -k $SAUCE_ACCESS_KEY & npm run dev & npm run selenium-firefox
+          command: npm run selenium-firefox
       - run:
           name: Run IE test
-          command: ./sauceconnect/bin/sc -u $SAUCE_USERNAME -k $SAUCE_ACCESS_KEY & npm run dev & npm run selenium-ie
+          command: npm run selenium-ie
       - run:
           name: Run Safari test
-          command: ./sauceconnect/bin/sc -u $SAUCE_USERNAME -k $SAUCE_ACCESS_KEY & npm run dev & npm run selenium-safari
+          command: npm run selenium-safari
       - run:
           name: Prepare demo
           command: ./scripts/demo.sh

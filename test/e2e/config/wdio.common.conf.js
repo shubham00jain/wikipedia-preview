@@ -3,7 +3,7 @@ module.exports = {
     key: process.env.SAUCE_ACCESS_KEY,
     services: [
         ['sauce', {
-            sauceConnect: true,
+            // sauceConnect: true,
             sauceConnectOpts: {
 
             }
