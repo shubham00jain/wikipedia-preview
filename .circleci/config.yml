@@ -16,10 +16,10 @@ jobs:
           command: npm run coverage
       - run:
           name: start app
-          command: npm run dev & sleep 10
+          command: npm run dev & sleep 5
       - run:
           name: start tunnel
-          command: ./sauceconnect/bin/sc -u $SAUCE_USERNAME -k $SAUCE_ACCESS_KEY & sleep 50
+          command: ./sauceconnect/bin/sc -u $SAUCE_USERNAME -k $SAUCE_ACCESS_KEY & sleep 30
       - run:
           name: Run Chrome test
           command: npm run selenium-chrome
