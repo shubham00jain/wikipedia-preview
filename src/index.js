@@ -24,7 +24,7 @@ function init({root, selector, lang, popupContainer}={}) {
 	Array.prototype.forEach.call(
 		root.querySelectorAll(selector),
 		function (node) {
-			node.className += " wp-style"
+			// node.className += " wp-style" // adding the class here causes text to jump
 			node.addEventListener('mouseenter', mouseEnter)
 		}
 	)

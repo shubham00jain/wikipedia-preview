@@ -1,3 +1,5 @@
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+
 const path = require('path');
 const config = {
   entry: './src/index.js',
@@ -14,6 +16,9 @@ const config = {
       ignored: ['dist', 'node_modules']
     }
   },
+  plugins: [new MiniCssExtractPlugin({
+    filename: 'style.css'
+  })],
   module: {
     rules: [
       {
@@ -46,6 +51,7 @@ const config = {
         test: /\.less$/,
         use: [
           'style-loader',
+          MiniCssExtractPlugin.loader,
           'css-loader',
           { loader: 'less-loader', options: { sourceMap: true } },
         ]
