@@ -3,7 +3,7 @@ const assert = require('assert')
 describe('wikipedia preview - ', () => {
 
     it('should open article on another tab', async (done) => {
-        await browser.url('http://localhost:8080')
+        await browser.url('https://wikimedia.github.io/wikipedia-preview')
         el = await $('div.content-en span:nth-child(1)')
         await el.click()
         el=await $('div.wp-text-content > div.wp-title')
