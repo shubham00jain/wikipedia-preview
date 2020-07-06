@@ -206,7 +206,7 @@ describe( 'createPopup', () => {
 		const doc = dom.window.document
 		popup = createPopup( doc.querySelector( '.popup-container' ), dom.window )
 		popup.subscribe( { onShow: onShowCallback, onHide: onHideCallback } )
-		popupElement = doc.querySelector( '.wp-popup' )
+		popupElement = doc.querySelector( '.wp-hover-popup' )
 	} )
 
 	it( 'adds a hidden popup to the dom', () => {

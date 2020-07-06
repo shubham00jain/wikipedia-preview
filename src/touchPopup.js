@@ -1,7 +1,3 @@
-import '../style/touchpopup.less'
-
-let popup
-
 const addBackgroundScreen = () => {
 		const screen = window.document.createElement( 'div' )
 		screen.classList.add( 'wp-dark-screen' )
@@ -13,46 +9,32 @@ const addBackgroundScreen = () => {
 		document.body.removeChild( screen[ 0 ] )
 	},
 
-	createTouchPopup = ( container, win = window ) => {
-		if ( !popup ) {
-			popup = win.document.createElement( 'div' )
-			popup.setAttribute( 'dir', 'ltr' )
-			popup.classList.add( 'wp-touch-popup' )
-			popup.style.visibility = 'hidden'
-			container.appendChild( popup )
+	createTouchShow = ( popup, popupEvents ) => {
+		const touchShow = ( content ) => {
+
+			popup.innerHTML = content
+			popup.style.visibility = 'visible'
+			addBackgroundScreen()
+
+			if ( popupEvents.onShow ) {
+				popupEvents.onShow( popup )
+			}
 		}
 
-		const popupEvents = {/* onShow, onHide */},
+		return touchShow
+	},
 
-			show = ( content ) => {
-				popup.innerHTML = content
-				popup.style.visibility = 'visible'
-				addBackgroundScreen()
-
-				if ( popupEvents.onShow ) {
-					popupEvents.onShow( popup )
-				}
-			},
-
-			hide = () => {
-				if ( popupEvents.onHide ) {
-					popupEvents.onHide( popup )
-				}
-
-				popup.style.visibility = 'hidden'
-				removeBackgroundScreen()
-			},
-
-			subscribe = ( events = {} ) => {
-				if ( events.onShow ) {
-					popupEvents.onShow = events.onShow
-				}
-				if ( events.onHide ) {
-					popupEvents.onHide = events.onHide
-				}
+	createTouchHide = ( popup, popupEvents ) => {
+		const touchHide = () => {
+			if ( popupEvents.onHide ) {
+				popupEvents.onHide( popup )
 			}
 
-		return { show, hide, subscribe, element: popup }
+			popup.style.visibility = 'hidden'
+			removeBackgroundScreen()
+		}
+
+		return touchHide
 	}
 
-export { createTouchPopup }
+export { createTouchShow, createTouchHide }

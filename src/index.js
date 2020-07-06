@@ -1,7 +1,6 @@
 import { requestPagePreview } from './api'
 import { customEvents } from './event'
 import { createPopup } from './popup'
-import { createTouchPopup } from './touchPopup'
 import { renderPreview } from './preview'
 import { isTouch } from './utils'
 
@@ -11,7 +10,7 @@ function init( {
 	lang = 'en',
 	popupContainer = document.body } ) {
 	const globalLang = lang,
-		popup = isTouch() ? createTouchPopup( popupContainer ) : createPopup( popupContainer ),
+		popup = createPopup( popupContainer, isTouch ),
 		events = customEvents( popup ),
 		showPopup = ( { target } ) => {
 			const title = target.getAttribute( 'data-wp-title' ) || target.textContent,
@@ -28,7 +27,7 @@ function init( {
 	Array.prototype.forEach.call(
 		root.querySelectorAll( selector ),
 		node => {
-			if ( isTouch() ) {
+			if ( isTouch ) {
 				node.addEventListener( 'touchstart', showPopup )
 			} else {
 				node.addEventListener( 'mouseenter', showPopup )
