@@ -4,7 +4,28 @@ export const customEvents = popup => {
 			const toElement = e.toElement || e.relatedTarget || e.target
 			if ( toElement !== popup.element.currentTargetElement &&
 			!popup.element.contains( toElement ) ) {
-				popup.hide()
+				// console.log( 'event.js - onMouseLeave - toElement...', toElement )
+				// console.log( 'event.js - onMouseLeave - toElement.id...', toElement.id )
+				// console.log( 'event.js - onMouseLeave - popup...', popup )
+				if ( toElement.id === 'one' ) {
+					console.log( 'event.js - onMouseLeave - setTimeout 200ms...' )
+					setTimeout( popup.hide, 200 )
+				} else if ( toElement.id === 'two' ) {
+					console.log( 'event.js - onMouseLeave - setTimeout 250ms...' )
+					setTimeout( popup.hide, 250 )
+				} else if ( toElement.id === 'three' ) {
+					console.log( 'event.js - onMouseLeave - setTimeout 300ms...' )
+					setTimeout( popup.hide, 300 )
+				} else if ( toElement.id === 'four' ) {
+					console.log( 'event.js - onMouseLeave - setTimeout 350ms...' )
+					setTimeout( popup.hide, 350 )
+				} else if ( toElement.id === 'five' ) {
+					console.log( 'event.js - onMouseLeave - setTimeout 400ms...' )
+					setTimeout( popup.hide, 400 )
+				} else {
+					console.log( 'event.js - onMouseLeave - no timeout...' )
+					popup.hide()
+				}
 			}
 		},
 
