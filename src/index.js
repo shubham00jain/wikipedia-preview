@@ -16,9 +16,10 @@ function init( {
 			createPopup( popupContainer ),
 		events = customEvents( popup ),
 		showPopup = ( { target } ) => {
-			if ( popup.timeoutId ) {
-				clearTimeout( popup.timeoutId )
-				popup.timeoutId = null
+			if ( popup.inTransition ) {
+				clearTimeout( popup.inTransition.timeoutId )
+				popup.element.removeEventListener( 'mouseenter', popup.inTransition.listener )
+				popup.inTransition = null
 			}
 
 			const title = target.getAttribute( 'data-wp-title' ) || target.textContent,

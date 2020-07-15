@@ -9,19 +9,22 @@ export const customEvents = popup => {
 				let timeoutId
 				const persistPopup = () => {
 						popup.element.removeEventListener( 'mouseenter', persistPopup )
-						popup.timeoutId = null
+						popup.inTransition = null
 						clearTimeout( timeoutId )
 					},
 
 					hidePopup = () => {
 						popup.element.removeEventListener( 'mouseenter', persistPopup )
-						popup.timeoutId = null
+						popup.inTransition = null
 						popup.hide()
 					}
 
 				timeoutId = setTimeout( hidePopup, 300 )
 				popup.element.addEventListener( 'mouseenter', persistPopup )
-				popup.timeoutId = timeoutId
+				popup.inTransition = {
+					timeoutId: timeoutId,
+					listener: persistPopup
+				}
 			}
 		},
 
