@@ -1,24 +1,28 @@
-import { isTouch } from './utils'
+// import { isTouch } from './utils'
 
-export const customEvents = popup => {
+export const customEvents = ( popup, isTouch = false ) => {
 
 	let eventListenerStack = [],
 		timeoutStack = []
+
 	const addTimeout = ( func, timeout ) => {
 			const id = setTimeout( func, timeout )
 			timeoutStack.push( id )
 			return id
 		},
+
 		clearAllTimeout = () => {
 			timeoutStack.forEach( timeoutId => {
 				clearTimeout( timeoutId )
 			} )
 			timeoutStack = []
 		},
+
 		addEventListener = ( target, type, listener, options = undefined ) => {
 			target.addEventListener( type, listener, options )
 			eventListenerStack.push( [ target, type, listener, options ] )
 		},
+
 		clearAllEventListener = () => {
 			eventListenerStack.forEach( eventListener => {
 				const [ target, type, listener, options ] = eventListener
@@ -26,7 +30,9 @@ export const customEvents = popup => {
 			} )
 			eventListenerStack = []
 		},
+
 		onMouseLeave = e => {
+			console.log( 'event.js - onMouseLeave - e...', e )
 			const toElement = e.toElement || e.relatedTarget || e.target,
 				previewElement = popup.element.currentTargetElement
 
@@ -81,5 +87,5 @@ export const customEvents = popup => {
 			}
 		}
 
-	return { onHide, onShow, onExpand }
+	return { onHide, onShow, onExpand, onMouseLeave }
 }

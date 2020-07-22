@@ -14,7 +14,7 @@ function init( {
 		popup = isTouch ?
 			createTouchPopup( popupContainer ) :
 			createPopup( popupContainer ),
-		events = customEvents( popup ),
+		events = customEvents( popup, isTouch ),
 		showPopup = ( { target } ) => {
 			if ( popup.element.style.visibility === 'visible' ) {
 				popup.hide()

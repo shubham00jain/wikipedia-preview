@@ -1,8 +1,11 @@
 'use strict'
 const assert = require( 'assert' )
 const sinon = require( 'sinon' )
+const { performance } = require('perf_hooks');
 const { computePopupPosition, createPopup } = require( '../src/popup' )
+const { customEvents } = require( '../src/event' )
 const { JSDOM } = require( 'jsdom' )
+// const { isTouch } = require('../src/utils')
 
 describe( 'computePopupPosition', () => {
 
@@ -222,8 +225,42 @@ describe( 'createPopup', () => {
 	} )
 
 	it( 'hides the popup when trigger the hide event', () => {
+		const t0 = performance.now();
 		popup.hide()
+		
 		assert.equal( popupElement.style.visibility, 'hidden' )
+		
 		assert( onHideCallback.called )
+		const t1 = performance.now();
+		console.log(`Call to popup.hide() took ${t1 - t0} milliseconds.`);
+	} )
+
+	it( 'hides the popup 300ms after mouses exits hover zone', () => {
+		const target = dom.window.document.querySelector( '.target' )
+		popup.show('Hello World', target)
+		const mockEvent = {
+			target: target
+		}
+		const t0 = performance.now();
+		let t1
+
+		const { onMouseLeave } = customEvents(popup)
+		onMouseLeave(mockEvent)
+
+		console.log('popupElement.style.visibility before..', popupElement.style.visibility);
+
+		setTimeout(() => {
+			console.log('popupElement.style.visibility at 350..', popupElement.style.visibility);
+		}, 350)
+		
+		// assert.equal( popupElement.style.visibility, 'hidden' )
+		
+		// assert( onHideCallback.called )
+		// if (onHideCallback.called) {
+		// 	t1 = performance.now();
+		// }
+		
+		
+		console.log(`Call to popup.hide() took ${t1 - t0} milliseconds.`);
 	} )
 } )
