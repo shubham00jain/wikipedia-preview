@@ -49,6 +49,7 @@ export const customEvents = popup => {
 		},
 
 		onExpand = () => {
+			popup.element.component.body.style.removeProperty( 'max-height' )
 			popup.element.component.wikipediapreview.classList.add( 'expanded' )
 
 			const lang = popup.lang,
@@ -62,6 +63,43 @@ export const customEvents = popup => {
 					}
 				} )
 			}
+
+			// drag event onExpan
+			// addEventListener
+			let temp = {
+				screenY: null,
+				targetScreenY: null,
+				originalHeight: null,
+				currentHeight: null
+			}
+			addEventListener( popup.element.component.header, 'touchstart', e => {
+				temp.screenY = e.touches[ 0 ].clientY
+				temp.targetScreenY = null
+				popup.element.component.body.style.transition = ''
+				temp.originalHeight = parseInt(
+					window.getComputedStyle( popup.element.component.body ).height )
+				temp.currentHeight = parseInt(
+					window.getComputedStyle( popup.element.component.body ).height )
+			} )
+			addEventListener( popup.element.component.header, 'touchmove', e => {
+				const clientY = e.touches[ 0 ].clientY,
+					offset = temp.screenY - clientY
+				temp.targetScreenY = clientY
+				temp.currentHeight = temp.originalHeight + offset
+				console.log( 'current taget', offset ) // eslint-disable-line
+				popup.element.component.body.style.height = temp.currentHeight + 'px'
+			} )
+			addEventListener( popup.element.component.header, 'touchend', () => {
+				popup.element.component.body.style.transition = 'height 125ms ease-in, max-height 125ms ease-in'
+
+				const diff = temp.originalHeight - temp.currentHeight
+				if ( ( diff / temp.originalHeight ) > 0.4 ) {
+					popup.element.component.body.style.height = '0px'
+					setTimeout( popup.hide, 150 )
+				} else {
+					popup.element.component.body.style.height = temp.originalHeight + 'px'
+				}
+			} )
 		},
 
 		onTouchOutsidePreview = e => {
@@ -89,6 +127,8 @@ export const customEvents = popup => {
 				wikipediapreviewGallery: element.querySelector( '.wikipediapreview-gallery' ),
 				closeBtn: element.querySelector( '.wikipediapreview-header-closebtn' ),
 				readMore: element.querySelector( '.wikipediapreview-footer-cta-readmore' ),
+				header: element.querySelector( '.wikipediapreview-header' ),
+				body: element.querySelector( '.wikipediapreview-body' ),
 				content: element.querySelector( '.wikipediapreview-body > p' )
 			}
 
@@ -97,6 +137,53 @@ export const customEvents = popup => {
 				element.component.content.getBoundingClientRect().height < 248 ) {
 				onExpand( element )
 			}
+
+			// drag event onExpan
+			// addEventListener
+			let temp = {
+				activate: false,
+				screenY: null,
+				targetScreenY: null,
+				originalHeight: null,
+				currentHeight: null
+			}
+			addEventListener( element.component.wikipediapreview, 'touchstart', e => {
+				if ( temp.activate ) {
+					return
+				}
+				temp.screenY = e.touches[ 0 ].clientY
+				temp.targetScreenY = null
+				element.component.body.style.transition = ''
+				temp.originalHeight = parseInt(
+					window.getComputedStyle( element.component.body ).maxHeight )
+				temp.currentHeight = parseInt(
+					window.getComputedStyle( element.component.body ).maxHeight )
+			} )
+			addEventListener( element.component.wikipediapreview, 'touchmove', e => {
+				if ( temp.activate ) {
+					return
+				}
+				const clientY = e.touches[ 0 ].clientY,
+					offset = temp.screenY - clientY
+				temp.targetScreenY = clientY
+				temp.currentHeight = temp.originalHeight + offset
+				console.log( 'current taget', offset ) // eslint-disable-line
+				element.component.body.style.maxHeight = temp.currentHeight + 'px'
+			} )
+			addEventListener( element.component.wikipediapreview, 'touchend', () => {
+				if ( temp.activate ) {
+					return
+				}
+				element.component.body.style.transition = 'max-height 125ms ease-in'
+
+				const diff = temp.currentHeight - temp.originalHeight
+				if ( ( diff / temp.originalHeight ) > 0.4 ) {
+					onExpand()
+					temp.activate = true
+				} else {
+					element.component.body.style.maxHeight = temp.originalHeight + 'px'
+				}
+			} )
 
 			addEventListener( element.component.closeBtn, 'click', popup.hide )
 			if ( element.component.readMore ) {
