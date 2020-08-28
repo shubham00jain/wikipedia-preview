@@ -1,4 +1,4 @@
-// import { msg } from '../i18n'
+import { msg } from '../i18n'
 
 let gallery = [],
 	current = 0
@@ -6,16 +6,17 @@ const clientWidth = window.innerWidth,
 	renderImageSlider = ( images, index ) => {
 		return `<div class="wp-gallery-fullscreen-slider" style="margin-left:-${index * clientWidth}px">
 			${images.map( ( image, index ) => {
-		const id = `wp-gallery-fullscreen-item-${index}`
-		return `<div class="wp-gallery-fullscreen-slider-item">
-			<div id="${id}" class="wp-gallery-fullscreen-slider-item-loading-icons">
+		return `<div class="wp-gallery-fullscreen-slider-item" data-index="${index}">
+			<div class="wp-gallery-fullscreen-slider-item-loading-icons">
 				<div class="wp-gallery-fullscreen-slider-item-loading-spinner">
 					<div class="wp-gallery-fullscreen-slider-item-loading-spinner-animation">
 						<div class="wp-gallery-fullscreen-slider-item-loading-spinner-animation-bounce"></div>
 					</div>
 				</div>
+				<div class="wp-gallery-fullscreen-slider-item-loading-text">${msg( 'en', 'gallery-loading-still' )}</div>
+				<div class="wp-gallery-fullscreen-slider-item-loading-error"></div>
 			</div>
-			<img src="${image.src}" loading="lazy" onload="javascript:document.querySelector('#${id}').style.visibility='hidden';"/>
+			<img src="${image.src}" loading="lazy"/>
 		</div>`
 	} ).join( '' )}
 		</div>`.trim()
@@ -39,7 +40,7 @@ const clientWidth = window.innerWidth,
 								</div>
 								<div class="wp-gallery-fullscreen-loading-error"></div>
 							</div>
-							<div class="wp-gallery-fullscreen-loading-text"></div>
+							<div class="wp-gallery-fullscreen-loading-text">msg( lang, 'gallery-loading-still' )</div>
 							<div class="wp-gallery-fullscreen-loading-error-refresh"></div>
 						</div>
 					</div>
@@ -113,6 +114,9 @@ const clientWidth = window.innerWidth,
 			previousButton = galleryContainer.querySelector( '.previous' ),
 			next = current + offset,
 			loading = galleryContainer.querySelector( '.wp-gallery-fullscreen-loading' )
+			// item = galleryContainer.querySelector\
+			// ( `.wp-gallery-fullscreen-slider-item[data-index="${offset}"]` ),
+			// image = item.querySelector( 'img ' )
 
 		if ( gallery[ next ] ) {
 			toggleLoading( loading, lang )
