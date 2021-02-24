@@ -1,22 +1,11 @@
-import en from '../i18n/en.json'
+import messages from '../i18n/allmessages.json'
 
-const messages = {
-		en
-	},
-
-	msg = ( lang, key, ...params ) => {
-		if ( !messages[ lang ] ) {
-			try {
-				messages[ lang ] = require( `../i18n/${lang}.json` )
-			} catch ( error ) {
-				messages[ lang ] = {}
-			}
-		}
-		let message = messages[ lang ][ key ] || messages.en[ key ] || key
-		params.forEach( ( param, i ) => {
-			message = message.replace( new RegExp( `\\$${i + 1}`, 'g' ), param )
-		} )
-		return message
-	}
+const msg = ( lang, key, ...params ) => {
+	let message = messages[ key ][ lang ] || messages[ key ].en || key
+	params.forEach( ( param, i ) => {
+		message = message.replace( new RegExp( `\\$${i + 1}`, 'g' ), param )
+	} )
+	return message
+}
 
 export { msg }
